@@ -1,0 +1,9 @@
+var bool a, b, c, d;
+a = true;
+b = false;
+c = a and b;
+d = a or c;
+print(a);
+print(b);
+print(c);
+print(d)

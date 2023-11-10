@@ -7,9 +7,7 @@
 #include <cstring>
 #include <string>
 #include <fstream>
-
 #include <unordered_map>
-
 #include "imp.hh"
 
 
@@ -17,8 +15,8 @@ using namespace std;
 
 class Token {
 public:
-  enum Type { LPAREN=0, RPAREN, PLUS, MINUS, MULT, DIV, EXP, LT, LTEQ, EQ,  NUM, ID, PRINT, SEMICOLON, COMMA, ASSIGN, CONDEXP, IF, THEN, ELSE, ENDIF, WHILE, DO, ENDWHILE, ERR, END, VAR };
-  static const char* token_names[27]; 
+  enum Type { LPAREN=0, RPAREN, PLUS, MINUS, MULT, DIV, EXP, LT, LTEQ, EQ, NUM, ID, PRINT, SEMICOLON, COMMA, ASSIGN, CONDEXP, IF, THEN, ELSE, ENDIF, WHILE, DO, ENDWHILE, ERR, END, VAR, TRUE, FALSE, AND, OR, FOR, COLON, ENDFOR };
+  static const char* token_names[34]; 
   Type type;
   string lexema;
   Token(Type);
@@ -59,6 +57,7 @@ private:
   Stm* parseStatement();
   Exp* parseExp();
   Exp* parseCExp();
+  Exp* parseBExp();
   Exp* parseAExp();
   Exp* parseTerm();
   Exp* parseFExp();

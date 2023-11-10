@@ -79,6 +79,26 @@ int ImpInterpreter::visit(WhileStatement* s) {
  return 0;
 }
 
+int ImpInterpreter::visit(ForStatement* s) {
+  int v1 = s->e->accept(this);
+  int v2 = s->e2->accept(this);
+
+  if (v2 < v1){
+    for (int i = v1; i >= v2; i--) {
+      env.update(s->id, i);
+      s->body->accept(this);
+    }
+  }
+  else{
+    for (int i = v1; i <= v2; i++) {
+      env.update(s->id, i);
+      s->body->accept(this);
+    }
+  }
+
+  return 0;
+}
+
 int ImpInterpreter::visit(BinaryExp* e) {
   int v1 = e->left->accept(this);
   int v2 = e->right->accept(this);
@@ -95,6 +115,8 @@ int ImpInterpreter::visit(BinaryExp* e) {
   case LT: result = (v1 < v2) ? 1 : 0; break;
   case LTEQ: result = (v1 <= v2) ? 1: 0; break;
   case EQ: result = (v1 == v2) ? 1 : 0; break;
+  case AND: result = v1 && v2; break;
+  case OR: result = v1 || v2; break;
   }
   return result;
 }
@@ -130,4 +152,8 @@ int ImpInterpreter::visit(CondExp* e) {
     return e->efalse->accept(this);
   else
     return e->etrue->accept(this);
+}
+
+int ImpInterpreter::visit(BoolExp* e) {
+  return e->value ? 1 : 0;
 }

@@ -13,6 +13,8 @@ string Exp::binopToString(BinaryOp op) {
   case LT: return "<";
   case LTEQ: return "<=";
   case EQ: return "==";
+  case AND: return "and";
+  case OR: return "or";
   }
   return "";
 }
@@ -24,6 +26,7 @@ NumberExp::NumberExp(int v):value(v) {}
 IdExp::IdExp(string id):id(id) {}
 ParenthExp::ParenthExp(Exp *e):e(e){}
 CondExp::CondExp(Exp *c, Exp* et, Exp* ef):cond(c), etrue(et), efalse(ef){}
+BoolExp::BoolExp(bool v):value(v){}
 
 Exp::~Exp() {}
 BinaryExp::~BinaryExp() { delete left; delete right; }
@@ -31,6 +34,7 @@ NumberExp::~NumberExp() { }
 IdExp::~IdExp() { }
 ParenthExp::~ParenthExp(){ delete e; }
 CondExp::~CondExp(){ delete cond; delete etrue; delete efalse; }
+BoolExp::~BoolExp() { }
 
 int BinaryExp::accept(ImpVisitor* v) {
   return v->visit(this);
@@ -52,7 +56,9 @@ int CondExp::accept(ImpVisitor* v) {
   return v->visit(this);
 }
 
-
+int BoolExp::accept(ImpVisitor* v) {
+  return v->visit(this);
+}
 
 // type visitor
 ImpType BinaryExp::accept(TypeVisitor* v) {
@@ -75,10 +81,15 @@ ImpType CondExp::accept(TypeVisitor* v) {
   return v->visit(this);
 }
 
+ImpType BoolExp::accept(TypeVisitor* v) {
+  return v->visit(this);
+}
+
 AssignStatement::AssignStatement(string id, Exp* e):id(id), rhs(e) { }
 PrintStatement::PrintStatement(Exp* e):e(e) { }
 IfStatement::IfStatement(Exp* c,Body *tb, Body* fb):cond(c),tbody(tb), fbody(fb) { }
 WhileStatement::WhileStatement(Exp* c,Body *b):cond(c),body(b) { }
+ForStatement::ForStatement(string id, Exp* e, Exp* e2, Body *b): id(id), e(e), e2(e2), body(b) { }
 
 StatementList::StatementList():slist() {}
 VarDec::VarDec(string type, list<string> vars):type(type), vars(vars) {}
@@ -91,6 +102,7 @@ AssignStatement::~AssignStatement() { delete rhs; }
 PrintStatement::~PrintStatement() { delete e; }
 IfStatement::~IfStatement() { delete fbody; delete tbody; delete cond; }
 WhileStatement::~WhileStatement() { delete body; delete cond; }
+ForStatement::~ForStatement() { delete body; delete e; delete e2; }
 
 StatementList::~StatementList() { }
 VarDec::~VarDec() { }
@@ -111,6 +123,10 @@ int IfStatement::accept(ImpVisitor* v) {
 }
 
 int WhileStatement::accept(ImpVisitor* v) {
+  return v->visit(this);
+}
+
+int ForStatement::accept(ImpVisitor* v) {
   return v->visit(this);
 }
 
@@ -155,6 +171,9 @@ void WhileStatement::accept(TypeVisitor* v) {
   return v->visit(this);
 }
 
+void ForStatement::accept(TypeVisitor* v) {
+  return v->visit(this);
+}
 
 void StatementList::accept(TypeVisitor* v) {
   return v->visit(this);
@@ -175,12 +194,3 @@ void Body::accept(TypeVisitor* v) {
 void Program::accept(TypeVisitor* v) {
   return v->visit(this);
 }
-
-
-
-
-
-
-
-
-

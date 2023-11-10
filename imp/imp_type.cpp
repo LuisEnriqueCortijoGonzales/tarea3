@@ -84,5 +84,3 @@ std::ostream& operator << ( std::ostream& outs, const ImpType & type )
   }
   return outs;
 }
-
-

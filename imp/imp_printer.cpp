@@ -81,6 +81,17 @@ int ImpPrinter::visit(WhileStatement* s) {
   return 0;
 }
 
+int ImpPrinter::visit(ForStatement* s) {
+  cout << "for " << s->id << " : ";
+  s->e->accept(this);
+  cout << " , ";
+  s->e2->accept(this);
+  cout << " do" << endl;
+  s->body->accept(this);
+  cout << "endfor";
+  return 0;
+}
+
 int ImpPrinter::visit(BinaryExp* e) {
   e->left->accept(this);
   cout << ' ' << Exp::binopToString(e->op) << ' ';
@@ -95,6 +106,11 @@ int ImpPrinter::visit(NumberExp* e) {
 
 int ImpPrinter::visit(IdExp* e) {
   cout << e->id;
+  return 0;
+}
+
+int ImpPrinter::visit(BoolExp* e) {
+  cout << (e->value ? "true" : "false");
   return 0;
 }
 

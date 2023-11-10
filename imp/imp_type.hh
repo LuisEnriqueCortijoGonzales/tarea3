@@ -5,7 +5,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include <cstring>
-
 #include <list>
 #include <vector>
 

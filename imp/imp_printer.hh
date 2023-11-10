@@ -16,15 +16,17 @@ public:
   int visit(PrintStatement*);
   int visit(IfStatement*);
   int visit(WhileStatement*);
+  int visit(ForStatement*);
 
+  
   
   int visit(BinaryExp* e);
   int visit(NumberExp* e);
   int visit(IdExp* e);
   int visit(ParenthExp* e);
   int visit(CondExp* e);
+  int visit(BoolExp* e);
 };
 
 
 #endif
-

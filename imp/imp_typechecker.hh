@@ -28,14 +28,15 @@ public:
   void visit(PrintStatement*);
   void visit(IfStatement*);
   void visit(WhileStatement*);
+  void visit(ForStatement*);
   
   ImpType visit(BinaryExp* e);
   ImpType visit(NumberExp* e);
   ImpType visit(IdExp* e);
   ImpType visit(ParenthExp* e);
   ImpType visit(CondExp* e);
+  ImpType visit(BoolExp* e);
 };
 
 
 #endif
-
